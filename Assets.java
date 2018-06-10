@@ -36,19 +36,19 @@ public class Assets {
     public void loadAssets(ScreenManager.ScreenType type) {
         switch (type) {
             case MENU:
-                assetManager.load("game.pack", TextureAtlas.class);
+                assetManager.load("game.txt", TextureAtlas.class);
                 createStdFont(32);
                 createStdFont(96);
                 break;
             case GAME:
-                assetManager.load("game.pack", TextureAtlas.class);
+                assetManager.load("game.txt", TextureAtlas.class);
                 createStdFont(48);
                 break;
         }
     }
 
     public void makeLinks() {
-        atlas = assetManager.get("game.pack", TextureAtlas.class);
+        atlas = assetManager.get("game.txt", TextureAtlas.class);
     }
 
     public void createStdFont(int size) {

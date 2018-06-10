@@ -1,6 +1,7 @@
 package com.geekbrains.game;
 
 import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -213,7 +214,6 @@ public class GameScreen implements Screen {
         if (camera.position.y > map.getMapY() * Rules.CELL_SIZE - Rules.WORLD_HEIGHT / 2) {
             camera.position.y = map.getMapY() * Rules.CELL_SIZE - Rules.WORLD_HEIGHT / 2;
         }
-        // camera.rotate(new Vector3(0,0,1),0.05f);
         camera.update();
     }
 
@@ -293,6 +293,38 @@ public class GameScreen implements Screen {
             }
         });
         stage.addActor(upgradeGroup);
+
+        pauseResumeGroup = new Group();
+        pauseResumeGroup.setPosition(Rules.WORLD_WIDTH / 2, 630);
+        Button pause = new Button(skin.getDrawable("button-pause"));
+        Button menu = new Button(skin.getDrawable("menu-sticker"));
+        pause.setSize(60, 60);
+        menu.setSize(60, 60);
+        pause.setPosition(0, 0);
+        menu.setPosition(100, 0);
+        pauseResumeGroup.addActor(pause);
+        pauseResumeGroup.addActor(menu);
+        pause.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (currentStatus == Status.PAUSE) {
+                    currentStatus = Status.PLAY;
+                } else {
+                    currentStatus = Status.PAUSE;
+                }
+            }
+        });
+
+        menu.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (Assets.getInstance().getAssetManager().update()) {
+                    ScreenManager.getInstance().changeScreen(ScreenManager.ScreenType.MENU);
+                }
+            }
+        });
+
+        stage.addActor(pauseResumeGroup);
 
         if (Gdx.app.getType() == Application.ApplicationType.Android) {
             final Group arrowGroup = new Group();
